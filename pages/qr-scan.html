@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scan - SmartPass</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/topbar.css">
+    <link rel="stylesheet" href="../assets/css/qr-scan.css">
+</head>
+<body>
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <div class="topbar-content">
+            <div class="topbar-left">
+                <img src="../assets/images/uc-logo.png" alt="UC Logo" class="topbar-logo"
+                     onerror="this.src='https://via.placeholder.com/50x50/003366/ffffff?text=UC'">
+                <div class="topbar-branding">
+                    <b class="topbar-title">UNIVERSITY OF CEBU-MAIN</b>
+                    <hr class="branding-line">
+                    <span class="topbar-subtitle">OFFICE OF THE CUSTODIAN</span>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <nav class="topbar-nav w3-hide-small">
+                    <a href="dashboard.html" class="topbar-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                    <a href="qr-scan.html"   class="topbar-link active"><i class="fas fa-qrcode"></i><span>QR Scan</span></a>
+                    <a href="permit-form.html" class="topbar-link"><i class="fas fa-file-alt"></i><span>Permit Form</span></a>
+                    <a href="history.html"   class="topbar-link"><i class="fas fa-history"></i><span>History</span></a>
+                </nav>
+
+                <div class="profile-dropdown">
+                    <div class="profile-trigger" onclick="toggleLogout()">
+                        <img src="../assets/images/default-avatar.png" alt="Guard" class="profile-avatar" id="userAvatar"
+                             onerror="this.src='https://www.w3schools.com/w3images/avatar2.png'">
+                        <div class="profile-info w3-hide-small">
+                            <span class="profile-name" id="userName">Guard on Duty</span>
+                            <span class="profile-role" id="userRole">Security</span>
+                        </div>
+                        <i class="fas fa-chevron-down profile-arrow"></i>
+                    </div>
+                    <div id="logoutDropdown" class="dropdown-menu">
+                        <div class="dropdown-header">
+                            <img src="../assets/images/default-avatar.png" class="dropdown-avatar" id="dropdownAvatar"
+                                 onerror="this.src='https://www.w3schools.com/w3images/avatar2.png'">
+                            <div>
+                                <div class="dropdown-name" id="dropdownName">Guard on Duty</div>
+                                <div class="dropdown-email" id="dropdownEmail">guard@uc.edu.ph</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:void(0)" onclick="handleLogout()" class="dropdown-item logout-item">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-toggle w3-hide-medium w3-hide-large" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="mobile-nav w3-hide-medium w3-hide-large">
+            <a href="dashboard.html"  class="mobile-nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="qr-scan.html"    class="mobile-nav-link active"><i class="fas fa-qrcode"></i><span>QR Scan</span></a>
+            <a href="permit-form.html" class="mobile-nav-link"><i class="fas fa-file-alt"></i><span>Permit Form</span></a>
+            <a href="history.html"    class="mobile-nav-link"><i class="fas fa-history"></i><span>History</span></a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="scan-main">
+        <div class="scan-wrapper">
+
+            <!-- Left: Scanner Panel -->
+            <div class="scanner-panel">
+
+                <!-- Camera viewport -->
+                <div class="camera-viewport" id="cameraViewport">
+                    <!-- Live camera stream goes here -->
+                    <video id="cameraFeed" autoplay playsinline muted></video>
+                    <canvas id="scanCanvas" style="display:none;"></canvas>
+
+                    <!-- Corner brackets -->
+                    <span class="corner tl"></span>
+                    <span class="corner tr"></span>
+                    <span class="corner bl"></span>
+                    <span class="corner br"></span>
+
+                    <!-- Scan laser line (animates when scanning) -->
+                    <div class="laser-line" id="laserLine"></div>
+
+                    <!-- Camera OFF placeholder -->
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <div class="placeholder-box">
+                            <div class="placeholder-cross">
+                                <span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scan status overlay -->
+                    <div class="scan-overlay" id="scanOverlay" style="display:none;">
+                        <div class="overlay-icon success" id="overlayIcon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span class="overlay-text" id="overlayText">QR Code Detected</span>
+                    </div>
+                </div>
+
+                <!-- Scan Button + Clear -->
+                <div class="scan-controls">
+                    <button class="scan-btn" id="scanBtn" onclick="toggleScanning()">
+                        <span class="scan-btn-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </span>
+                        <span id="scanBtnText">SCAN QR CODE</span>
+                    </button>
+
+                    <button class="clear-btn" onclick="clearResults()" title="Clear / Reset">
+                        <i class="fas fa-rotate-right"></i>
+                        Clear
+                    </button>
+                </div>
+
+                <!-- Gate toggle (Entry / Exit) -->
+                <div class="gate-toggle">
+                    <span class="gate-label">Log as:</span>
+                    <div class="toggle-track">
+                        <button class="toggle-opt active" id="toggleEntry" onclick="setGate('entry')">
+                            <i class="fas fa-sign-in-alt"></i> Entry
+                        </button>
+                        <button class="toggle-opt" id="toggleExit" onclick="setGate('exit')">
+                            <i class="fas fa-sign-out-alt"></i> Exit
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right: Results Panel -->
+            <div class="results-panel">
+
+                <!-- Session Stats -->
+                <div class="session-stats">
+                    <div class="stat-pill entry">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span id="entryCount">0</span>
+                        <small>Entries</small>
+                    </div>
+                    <div class="stat-pill exit">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span id="exitCount">0</span>
+                        <small>Exits</small>
+                    </div>
+                    <div class="stat-pill total">
+                        <i class="fas fa-list-check"></i>
+                        <span id="totalCount">0</span>
+                        <small>Total</small>
+                    </div>
+                </div>
+
+                <!-- Results Table -->
+                <div class="results-table-wrap">
+                    <div class="results-header">
+                        <h3 class="results-title">
+                            <span class="live-dot"></span>
+                            Scan Log
+                        </h3>
+                        <span class="results-timestamp" id="lastScanTime">—</span>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table class="results-table" id="resultsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>ID Number</th>
+                                    <th>Item / Purpose</th>
+                                    <th>GP #</th>
+                                    <th>Photo</th>
+                                    <th>QR</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scanResultsBody">
+                                <!-- Empty state -->
+                                <tr id="emptyRow">
+                                    <td colspan="8" class="empty-state">
+                                        <div class="empty-icon">
+                                            <i class="fas fa-qrcode"></i>
+                                        </div>
+                                        <p>No scans yet. Press <strong>SCAN QR CODE</strong> to begin.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Photo Lightbox Modal -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <div class="lightbox-inner" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="" alt="Equipment Photo" id="lightboxImg">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+    </div>
+
+    <!-- Scan Result Toast -->
+    <div class="scan-toast" id="scanToast">
+        <div class="toast-icon" id="toastIcon"><i class="fas fa-check"></i></div>
+        <div class="toast-body">
+            <strong id="toastTitle">Scan Successful</strong>
+            <span id="toastSub">Bearer logged as Entry</span>
+        </div>
+    </div>
+
+    <script src="../assets/js/topbar.js"></script>
+    <script src="../assets/js/qr-scan.js"></script>
+</body>
+</html>
