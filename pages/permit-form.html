@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartPass Dashboard - University of Cebu</title>
+    <title>Permit Form - SmartPass</title>
     
     <!-- W3.CSS Framework -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -17,6 +17,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="../assets/css/topbar.css">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/permit-form.css">
 </head>
 <body>
     <!-- Topbar -->
@@ -36,7 +37,7 @@
             <div class="topbar-right">
                 <!-- Navigation Links (Hide on small screens) -->
                 <nav class="topbar-nav w3-hide-small">
-                    <a href="dashboard.html" class="topbar-link active" id="nav-dashboard">
+                    <a href="dashboard.html" class="topbar-link" id="nav-dashboard">
                         <i class="fas fa-home"></i>
                         <span>Dashboard</span>
                     </a>
@@ -44,7 +45,7 @@
                         <i class="fas fa-qrcode"></i>
                         <span>QR Scan</span>
                     </a>
-                    <a href="permit-form.html" class="topbar-link" id="nav-permit">
+                    <a href="permit-form.html" class="topbar-link active" id="nav-permit">
                         <i class="fas fa-file-alt"></i>
                         <span>Permit Form</span>
                     </a>
@@ -53,7 +54,7 @@
                         <span>History</span>
                     </a>
                 </nav>
-                
+
                 <!-- Notifications Bell -->
                 <div class="notification-bell">
                     <button class="bell-trigger" onclick="toggleNotifications()" id="notificationBell">
@@ -78,13 +79,11 @@
                                 <p>Loading notifications...</p>
                             </div>
 
-                            <!-- Empty state (shown when no notifications) -->
+                            <!-- Empty state -->
                             <div class="notification-empty" id="notificationEmpty" style="display: none;">
                                 <i class="fas fa-bell-slash"></i>
                                 <p>No notifications yet</p>
                             </div>
-
-                            <!-- Notification items will be inserted here by JavaScript -->
                         </div>
 
                         <div class="notification-footer">
@@ -106,7 +105,7 @@
                              onerror="this.src='https://www.w3schools.com/w3images/avatar2.png'">
                         <div class="profile-info w3-hide-small">
                             <span class="profile-name" id="userName">Loading...</span>
-                            <span class="profile-role" id="userRole">Admin</span>
+                            <span class="profile-role" id="userRole">Custodian</span>
                         </div>
                         <i class="fas fa-chevron-down profile-arrow"></i>
                     </div>
@@ -150,7 +149,7 @@
 
         <!-- Mobile Navigation Menu -->
         <div id="mobileMenu" class="mobile-nav w3-hide-medium w3-hide-large">
-            <a href="dashboard.html" class="mobile-nav-link active">
+            <a href="dashboard.html" class="mobile-nav-link">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
@@ -158,7 +157,7 @@
                 <i class="fas fa-qrcode"></i>
                 <span>QR Scan</span>
             </a>
-            <a href="permit-form.html" class="mobile-nav-link">
+            <a href="permit-form.html" class="mobile-nav-link active">
                 <i class="fas fa-file-alt"></i>
                 <span>Permit Form</span>
             </a>
@@ -171,106 +170,58 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="dashboard-container">
-            <!-- Welcome Section -->
-            <div class="welcome-section">
-                <div class="welcome-text">
-                    <h1 class="welcome-title">Hello, <span id="welcomeName">Cedric</span>!</h1>
-                    <p class="welcome-subtitle">Welcome back to SmartPass Dashboard</p>
-                </div>
-                <div class="welcome-date">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span id="currentDate"></span>
-                </div>
-            </div>
-
-            <!-- Quick Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="ongoingApplications">0</h3>
-                        <p class="stat-label">Ongoing Applications</p>
-                        <span class="stat-trend neutral">
-                            <i class="fas fa-hourglass-half"></i> For Approval
-                        </span>
-                    </div>
+        <div class="permit-container">
+            
+            <!-- Form Type Selection -->
+            <div class="form-type-section">
+                <div class="selection-header">
+                    <h1 class="selection-title">
+                        <i class="fas fa-clipboard-list"></i>
+                        Create Gate Pass
+                    </h1>
+                    <p class="selection-subtitle">Select the type of gate pass you want to create</p>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="fas fa-laptop"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="equipmentInside">0</h3>
-                        <p class="stat-label">Equipment Inside</p>
-                        <span class="stat-trend positive">
-                            <i class="fas fa-arrow-up"></i> Live count
-                        </span>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 class="stat-value" id="visitorsInside">0</h3>
-                        <p class="stat-label">Visitors Inside</p>
-                        <span class="stat-trend positive">
-                            <i class="fas fa-arrow-up"></i> Live count
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Feed Section -->
-            <div class="analytics-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">
-                            <i class="fas fa-stream"></i>
-                            Live Activity Feed
-                        </h2>
-                        <p class="section-subtitle">Real-time entry/exit scans and ongoing applications</p>
-                    </div>
-                    <div class="header-actions">
-                        <select class="filter-select" id="feedFilter" onchange="filterLiveFeed()">
-                            <option value="all">All Activity</option>
-                            <option value="scanned">Scanned Only</option>
-                            <option value="applications">Applications Only</option>
-                        </select>
-                        <button class="refresh-btn" onclick="refreshLiveFeed()">
-                            <i class="fas fa-sync-alt"></i>
-                            <span class="w3-hide-small">Refresh</span>
+                <div class="form-type-cards">
+                    <!-- Computer Equipment Card -->
+                    <div class="type-card" onclick="window.location.href='computer-permit.html'">
+                        <div class="type-card-icon computer">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3 class="type-card-title">Computer Equipment</h3>
+                        <p class="type-card-description">
+                            For laptops, desktops, tablets, and computer-related devices
+                        </p>
+                        <ul class="type-card-features">
+                            <li><i class="fas fa-check"></i> Detailed specifications form</li>
+                            <li><i class="fas fa-check"></i> Processor, RAM, Storage info</li>
+                            <li><i class="fas fa-check"></i> Photo documentation required</li>
+                        </ul>
+                        <button class="select-btn">
+                            <i class="fas fa-arrow-right"></i>
+                            Select This Type
                         </button>
                     </div>
-                </div>
 
-                <div class="table-container">
-                    <table class="data-table" id="liveFeedTable">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Item/Purpose</th>
-                                <th>Time IN</th>
-                                <th>Time OUT</th>
-                                <th class="w3-hide-small">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="liveFeedBody">
-                            <!-- Data will be populated by JavaScript -->
-                            <tr>
-                                <td colspan="6" class="no-data">
-                                    <i class="fas fa-inbox"></i>
-                                    <p>Loading live feed...</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <!-- Non-Computer Equipment Card -->
+                    <div class="type-card" onclick="window.location.href='nonComputer-Permit.html'">
+                        <div class="type-card-icon non-computer">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h3 class="type-card-title">Non-Computer/Non-Musical</h3>
+                        <p class="type-card-description">
+                            For projectors, printers, cables, and other equipment
+                        </p>
+                        <ul class="type-card-features">
+                            <li><i class="fas fa-check"></i> Simple item listing</li>
+                            <li><i class="fas fa-check"></i> Quantity-based entry</li>
+                            <li><i class="fas fa-check"></i> Flexible descriptions</li>
+                        </ul>
+                        <button class="select-btn">
+                            <i class="fas fa-arrow-right"></i>
+                            Select This Type
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -279,6 +230,5 @@
 
     <!-- Scripts -->
     <script src="../assets/js/topbar.js"></script>
-    <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>

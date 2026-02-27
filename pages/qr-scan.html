@@ -74,7 +74,7 @@
 
     <!-- Main Content -->
     <main class="scan-main">
-        <div class="scan-wrapper">
+        <div class="scan-wrapper single-column">
 
             <!-- Left: Scanner Panel -->
             <div class="scanner-panel">
@@ -140,13 +140,8 @@
                     </div>
                 </div>
 
-            </div>
-
-            <!-- Right: Results Panel -->
-            <div class="results-panel">
-
-                <!-- Session Stats -->
-                <div class="session-stats">
+                <!-- Compact session stats (single-column layout) -->
+                <div class="session-stats" style="width:100%; margin-top:12px;">
                     <div class="stat-pill entry">
                         <i class="fas fa-sign-in-alt"></i>
                         <span id="entryCount">0</span>
@@ -162,48 +157,14 @@
                         <span id="totalCount">0</span>
                         <small>Total</small>
                     </div>
-                </div>
-
-                <!-- Results Table -->
-                <div class="results-table-wrap">
-                    <div class="results-header">
-                        <h3 class="results-title">
-                            <span class="live-dot"></span>
-                            Scan Log
-                        </h3>
-                        <span class="results-timestamp" id="lastScanTime">—</span>
-                    </div>
-
-                    <div class="table-scroll">
-                        <table class="results-table" id="resultsTable">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>ID Number</th>
-                                    <th>Item / Purpose</th>
-                                    <th>GP #</th>
-                                    <th>Photo</th>
-                                    <th>QR</th>
-                                    <th>Status</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody id="scanResultsBody">
-                                <!-- Empty state -->
-                                <tr id="emptyRow">
-                                    <td colspan="8" class="empty-state">
-                                        <div class="empty-icon">
-                                            <i class="fas fa-qrcode"></i>
-                                        </div>
-                                        <p>No scans yet. Press <strong>SCAN QR CODE</strong> to begin.</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div style="margin-left:auto; align-self:center; color:#8b949e; font-family:'JetBrains Mono',monospace; font-size:13px;">
+                        <span id="lastScanTime">—</span>
                     </div>
                 </div>
 
             </div>
+
+            <!-- Results panel removed for single-scanner view -->
         </div>
     </main>
 

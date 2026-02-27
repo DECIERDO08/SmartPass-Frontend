@@ -122,6 +122,336 @@ body {
     font-size: 16px;
 }
 
+/* ========================================
+   NOTIFICATION BELL
+   ======================================== */
+
+.notification-bell {
+    position: relative;
+    margin-right: 12px;
+}
+
+.bell-trigger {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a5568;
+}
+
+.bell-trigger:hover {
+    background: #f0f4f8;
+    border-color: #cbd5e0;
+    color: #003366;
+}
+
+.bell-trigger.has-notifications {
+    animation: bellShake 0.5s ease;
+}
+
+@keyframes bellShake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg); }
+    50% { transform: rotate(15deg); }
+    75% { transform: rotate(-10deg); }
+}
+
+.bell-trigger i {
+    font-size: 18px;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 20px;
+    height: 20px;
+    background: #e53e3e;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border: 2px solid #ffffff;
+    animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badgePop {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 420px;
+    max-height: 600px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0;
+    display: none;
+    flex-direction: column;
+    z-index: 1100;
+    animation: dropdownSlide 0.25s ease;
+}
+
+.notification-dropdown.show {
+    display: flex;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.notification-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.mark-all-read {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    color: #718096;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mark-all-read:hover {
+    background: #f8fafc;
+    color: #003366;
+    border-color: #cbd5e0;
+}
+
+.notification-list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 480px;
+}
+
+.notification-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+/* Notification Item */
+.notification-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f4f8;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-item:hover {
+    background: #f8fafc;
+}
+
+.notification-item.unread {
+    background: #f0f9ff;
+}
+
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #003366;
+}
+
+.notification-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.notification-icon.pending {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ff9800;
+}
+
+.notification-icon.approved {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+}
+
+.notification-icon.rejected {
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+}
+
+.notification-icon.info {
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.notification-item.unread .notification-text {
+    color: #003366;
+}
+
+.notification-meta {
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 8px;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.notification-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.notification-btn.primary {
+    background: #003366;
+    color: #ffffff;
+}
+
+.notification-btn.primary:hover {
+    background: #00254d;
+}
+
+.notification-btn.secondary {
+    background: #f8fafc;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+}
+
+.notification-btn.secondary:hover {
+    background: #f0f4f8;
+}
+
+/* Loading & Empty States */
+.notification-loading,
+.notification-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+}
+
+.notification-loading i,
+.notification-empty i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #cbd5e0;
+}
+
+.notification-loading p,
+.notification-empty p {
+    font-size: 14px;
+    color: #718096;
+}
+
+.notification-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #f0f4f8;
+}
+
+.view-all-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #003366;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.view-all-link:hover {
+    color: #0066cc;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    .notification-dropdown {
+        width: calc(100vw - 32px);
+        right: -100px;
+    }
+}
+
+/* ========================================
+   PROFILE DROPDOWN
+   ======================================== */
+
 /* Profile Dropdown */
 .profile-dropdown {
     position: relative;

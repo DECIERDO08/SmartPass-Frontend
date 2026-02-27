@@ -18,6 +18,13 @@
     min-height: calc(100vh - 78px);
 }
 
+/* Single-column (scanner-only) layout */
+.scan-wrapper.single-column {
+    grid-template-columns: 520px;
+    justify-content: center;
+    padding: 28px;
+}
+
 /* ========================================
    SCANNER PANEL (left column)
    ======================================== */
